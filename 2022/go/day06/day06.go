@@ -23,31 +23,23 @@ func parseInput(test bool) string {
 	return string(data)
 }
 
+func uniqueSequence(length int, in string) int {
+	for i := length; i < len(in); i++ {
+		set := make(map[byte]struct{})
+		for j := i - length; j < i; j++ {
+			set[in[j]] = struct{}{}
+		}
+		if len(set) == length {
+			return i
+		}
+	}
+
+	return -1
+}
+
 func solve(in string) (int, int) {
-	p1total := 0
-	p2total := 0
-
-	for i := 4; i < len(in); i++ {
-		set := make(map[byte]struct{})
-		for j := i - 4; j < i; j++ {
-			set[in[j]] = struct{}{}
-		}
-		if len(set) == 4 {
-			p1total = i
-			break
-		}
-	}
-
-	for i := 14; i < len(in); i++ {
-		set := make(map[byte]struct{})
-		for j := i - 14; j < i; j++ {
-			set[in[j]] = struct{}{}
-		}
-		if len(set) == 14 {
-			p2total = i
-			break
-		}
-	}
+	p1total := uniqueSequence(4, in)
+	p2total := uniqueSequence(14, in)
 
 	return p1total, p2total
 }
